@@ -1,0 +1,7 @@
+[package]
+name = "diffs"
+version = "0.1.0"
+
+[[bin]]
+name = "diff"
+path = "src/main.rs"
