@@ -2,24 +2,23 @@ use std::collections::VecDeque;
 use std::rc::Rc;
 use std::cell::RefCell;
 
+#[derive(PartialEq)]
 pub struct Instruction
 {
-    pub value: String,
+    pub value: Option<String>,
     pub children: VecDeque<Rc<RefCell<Instruction>>>
 }
-
-//let mut stack:VecDeque<&Instruction> = VecDeque::new();
 
 impl Instruction
 {
     pub fn new() -> Instruction {
         Instruction 
         {
-            value: "".to_string(),
+            value: None,
             children: VecDeque::new()
         }
     }
-
+    
     pub fn push(&mut self, child: Rc<RefCell<Instruction>>) 
     {
         self.children.push_back(child);
