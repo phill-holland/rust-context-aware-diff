@@ -1,3 +1,2 @@
-pub mod parser;
 pub mod instruction;
-pub mod TreeNode;
+pub mod parse;
