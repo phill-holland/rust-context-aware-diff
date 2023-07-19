@@ -10,6 +10,23 @@ mod tree;
 
 fn main() 
 {
+    let mut moo:VecDeque<Rc<RefCell<parser::TreeNode::TreeNode>>> = VecDeque::new();
+    let sss = String::from("hello");
+    let mut ddd = parser::TreeNode::TreeNode::new();
+    ddd.value = Some(String::from("hello"));
+
+    //let mut moo1:VecDeque<Rc<RefCell<parser::TreeNode::TreeNode>>> = VecDeque::new();
+    //let sss = String::from("hello");
+    let mut ddd2 = parser::TreeNode::TreeNode::new();
+    ddd2.value = Some(String::from("world"));
+
+    ddd.children.push(Rc::new(RefCell::new(ddd2)));
+
+    println!("{}",ddd.print());
+    //sss = "hello".to_string();
+    moo.push_back(Rc::new(RefCell::new(ddd)));
+
+
     let mut bob = parser::TreeNode::load("test.txt");
 
     let w = bob.borrow_mut().as_ref().borrow().print();

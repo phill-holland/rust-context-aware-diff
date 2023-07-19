@@ -36,11 +36,19 @@ impl TreeNode {
   */
 
   pub fn print(&self) -> String {
-    if let Some(value) = self.value.clone() {
-      return value;
-    }
+    //if let Some(value) = self.value.clone() {
+//      return value;
+  //  }
     //} else {
-      return String::from("[")
+      //if let Some(value) = self.value.clone() {
+
+        let mut ss:String = String::from(" ");//self.value.clone()?;
+        if let Some(value) = self.value.clone() {
+          ss = value;
+        }
+
+        //let ff:&str = &ss;
+      return String::from("[") + &ss//ff
         + &self
           .children
           .iter()
@@ -49,7 +57,10 @@ impl TreeNode {
           .collect::<Vec<String>>()
           .join(",")
         + "]";
-    //}
+    //} else 
+    //{
+//      return String::from("");
+  //}
   }
 }
 /*
@@ -74,6 +85,10 @@ impl TreeNode {
       let mut stack:VecDeque<Rc<RefCell<TreeNode>>> = VecDeque::new();
     
       stack.push_back(Rc::clone(&result));
+
+      //println!("{}",stack[0].borrow().print());
+
+      //stack.push_back(result);
    
       let mut p:char = ' ';
       let mut current:String = String::from("");
@@ -106,12 +121,21 @@ impl TreeNode {
                   current.clear();
 
                   let child = Rc::new(RefCell::new(node));
-                                    
+
+                  //println!("{}",child.borrow().print());
+
+                       //child.borrow().print();
+
                   let n = stack.borrow_mut().len() - 1;
                   stack.borrow_mut()[n].as_ref().borrow_mut().children.push(child);
 
+                  // ***
+                  //let moo = &stack.borrow_mut()[n].as_ref().borrow_mut().children;
+                  // ***
+
                   let m = stack.borrow_mut()[n].as_ref().borrow_mut().children.len() - 1;
                   let z = Rc::clone(&stack.borrow_mut()[n].as_ref().borrow_mut().children[m]);
+                  //let z = stack.borrow_mut()[n].as_ref().borrow_mut().children[m];
                   stack.push_back(z);
   
                   line_state = 0;
@@ -127,7 +151,10 @@ impl TreeNode {
 
                   let child = Rc::new(RefCell::new(node));
 
-                  stack.push_back(Rc::clone(&child));
+                  let n = stack.borrow_mut().len() - 1;
+                  stack.borrow_mut()[n].as_ref().borrow_mut().children.push(child);
+
+                  //stack.push_back(child);//Rc::clone(&child));
 
               }
   
@@ -141,9 +168,14 @@ impl TreeNode {
                 node.value = Some(current.clone());
                 current.clear();
 
-                let child = Rc::new(RefCell::new(node));
+              let child = Rc::new(RefCell::new(node));
 
-                stack.push_back(Rc::clone(&child));
+                let n = stack.borrow_mut().len() - 1;
+                stack.borrow_mut()[n].as_ref().borrow_mut().children.push(child);
+
+                //let child = Rc::new(RefCell::new(node));
+
+                //stack.push_back(Rc::clone(&child));
                 //stack.push_back(child);
               }
   
@@ -155,7 +187,8 @@ impl TreeNode {
           p = ch.clone();
       }
 
-      return result;
+      //return result;
+      return stack[0].clone();
   }
   
 
