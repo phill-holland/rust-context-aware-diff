@@ -1,6 +1,6 @@
 # Context Aware Code Diff 
 
-A simple proof-of-concept diff tool implementation rewritten from C++ to Rulst, explicitly for code files, to help simplify and improve the output from traditional diff algorithms.
+A simple proof-of-concept diff tool implementation rewritten from C++ to Rust, explicitly for code files, to help simplify and improve the output from traditional diff algorithms.
 
 Designed to work on programming languages which using curly brackets to denote code blocks and semi-colons to end statements (for example languages like C++, C#, Java, etc..)
 
