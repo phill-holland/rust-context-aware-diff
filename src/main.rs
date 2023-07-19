@@ -12,6 +12,8 @@ fn main()
 {
     let mut bob = parser::TreeNode::load("test.txt");
 
+    let w = bob.borrow_mut().as_ref().borrow().print();
+    println!("{}",w);
     //let v = Some(bob.borrow_mut().as_ref().borrow_mut().children[0].borrow_mut().as_ref().borrow_mut().value);
     //let tree = tree::tree::init_tree(String::from("[1,2]"));
     //let bob = parser::parser::load("test.txt");

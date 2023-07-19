@@ -1,4 +1,6 @@
-use std::borrow::{BorrowMut, Borrow};
+//use std::borrow::{BorrowMut, Borrow };
+//use std::borrow::{BorrowMut};
+use std::borrow::BorrowMut;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::collections::VecDeque;
@@ -16,6 +18,38 @@ impl TreeNode {
       value: None,
       children: vec![]
     };
+  }
+
+/*
+  pub fn print(&self) -> String {
+    let mut result: String = String::new();
+
+//result = self.children[0].as_ref().borrow_mut().value.unwrap();
+    //for (_,i:Rc<RefCell<TreeNode>>) in self.children Vec<Rc<RefCell<TreeNode>>>//.borrow_mut()
+    //for i in self.children.borrow_mut().as_
+    //{
+      //result = result + i.
+    //}
+
+    return result;
+  }
+  */
+
+  pub fn print(&self) -> String {
+    if let Some(value) = self.value.clone() {
+      return value;
+    }
+    //} else {
+      return String::from("[")
+        + &self
+          .children
+          .iter()
+          .map(|tn| tn.borrow().print())
+          //.map(|tn| <Rc<RefCell<TreeNode>> as Borrow<std::borrow::Cow>>::borrow(tn).print())
+          .collect::<Vec<String>>()
+          .join(",")
+        + "]";
+    //}
   }
 }
 /*
