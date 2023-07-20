@@ -10,6 +10,7 @@
             "name": "Debug",
             "program": "${workspaceFolder}/target/debug/diff",
             "args": [],
+            "env": {  "RUST_BACKTRACE" : "1" },
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build",
             "sourceLanguages": [

@@ -57,38 +57,51 @@ impl Instruction {
     source.borrow().children
     .iter()
     .for_each(|tn| {
-        if let Some(v) = tn.borrow().value.clone() {
-            if map.contains_key(&v) {
-                if let Some(x) = map.get(&v) {
+        let tw = tn;//Rc::clone(&tn);//.borrow_mut();
+        if let Some(v) = &tw.borrow().value.clone() {
+            if map.contains_key(v) {
+                if let Some(x) = map.get(v) {
                     if x == &idx {
-                        let child = self.children[idx as usize].borrow().compare(tn);
-                        child.borrow_mut().value = Some(v);
+                        let child = self.children[idx as usize].borrow().compare(&tw);
+                        child.borrow_mut().value = Some(String::from(v));
                         result.borrow_mut().children.push(child);
+                        //println!("here");
+                        //println!("{}",result.borrow_mut().print());
+                        //map.remove(v);
                     }
-                    else {
-                        let mut child = Instruction::new();
-                        child.value = Some(v.clone() + &String::from("\n"));
-                        result.borrow_mut().children.push(Rc::new(RefCell::new(child)));                                            
-                        map.remove(&v);
+                    //else {
+
+                    if let Some(t) = map.get(v) {
+                        if t != &idx {
+                            let mut child = Instruction::new();
+                            child.value = Some(v.clone() + &String::from("\n"));
+                            result.borrow_mut().children.push(Rc::new(RefCell::new(child)));                                                                    
+                        }
+                        //map.remove(v);
                     }
+
+                    //let f = v.clone();
+                    map.remove(v);
                 }
             }            
             else {
-                result.borrow_mut().children.push(tn.borrow_mut().prefix(&String::from("+ ")));
-            }
-            idx += 1;
+                let mm = tw.borrow().prefix(&String::from("+ "));
+                result.borrow_mut().children.push(mm);
+                //result.borrow_mut().children.push(tw.prefix(&String::from("+ ")));
+            }            
         }
-
-        for (_key, value) in &map {
-            let tt = self.children[*value as usize].borrow_mut().prefix(&String::from("- "));
-            result.borrow_mut().children.insert(*value as usize, tt);
-        }
+        idx += 1;
     });    
+
+    for (_key, value) in &map {
+        let tt = self.children[*value as usize].borrow_mut().prefix(&String::from("- "));
+        result.borrow_mut().children.insert(*value as usize, tt);
+    }
 
     return result;
   }
 
-  pub fn prefix(&self,value:&String) -> Rc<RefCell<Instruction>>
+  fn prefix(&self,value:&String) -> Rc<RefCell<Instruction>>
   {
     let root = Instruction::new();
     let result: Rc<RefCell<Instruction>> = Rc::new(RefCell::new(root));

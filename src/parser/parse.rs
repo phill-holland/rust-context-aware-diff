@@ -103,6 +103,18 @@ pub fn parse(data:&str) -> Rc<RefCell<Instruction>>
         p = ch.clone();
     }
     
+    if current.len() > 0
+    {
+        let mut node = Instruction::new();
+        node.value = Some(current.clone());
+        current.clear();
+
+        let child = Rc::new(RefCell::new(node));
+
+        let n = stack.borrow_mut().len() - 1;
+        stack.borrow_mut()[n].as_ref().borrow_mut().children.push(child);
+    }
+    
     return stack[0].clone();
 }
 
