@@ -1,4 +1,4 @@
-use parser::instruction::Instruction;
+use crate::parser::instruction::Instruction;
 use std::borrow::BorrowMut;
 use std::collections::VecDeque;
 use std::cell::RefCell;
@@ -114,7 +114,7 @@ pub fn parse(data:&str) -> Rc<RefCell<Instruction>>
         let n = stack.borrow_mut().len() - 1;
         stack.borrow_mut()[n].as_ref().borrow_mut().children.push(child);
     }
-    
+
     return stack[0].clone();
 }
 
