@@ -10,6 +10,10 @@ The original idea was the need for a diff tool for files which may be reorganise
 
 Work in progress!
 
+See C++ version here;
+
+https://www.github.com/phill-holland/context-aware-diff
+
 # Usage
 
 diff filename1 filename2
