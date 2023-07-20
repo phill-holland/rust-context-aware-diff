@@ -24,14 +24,34 @@ impl Instruction {
         ss = value;
     }    
 
-    return String::from("[") + &ss
-    + &self
+    let mut prefix:String = String::from("");
+    let mut preamble:String = String::from("");
+    let mut postamble:String = String::from("");
+
+    if ss.len() > 0 {    
+        if ss.len() > 1 {
+            if ss.starts_with('-') { prefix = String::from("- "); }
+            else if ss.starts_with('+') { prefix = String::from("+ "); }
+        }
+
+        preamble = ss + &String::from("\n");
+
+        if self.children.len() > 0 {
+            preamble += &prefix;
+            preamble += &String::from("{\n");
+
+            postamble += &prefix;
+            postamble += &String::from("}\n");
+        }
+    }
+
+    return preamble + &self
         .children
         .iter()
         .map(|tn| tn.borrow().print())
         .collect::<Vec<String>>()
-        .join(",")
-    + "]";
+        .join("")
+    + &postamble;
   }
 
   pub fn compare(&self,source:&Rc<RefCell<Instruction>>) -> Rc<RefCell<Instruction>>
@@ -57,7 +77,7 @@ impl Instruction {
     source.borrow().children
     .iter()
     .for_each(|tn| {
-        let tw = tn;//Rc::clone(&tn);//.borrow_mut();
+        let tw = tn;
         if let Some(v) = &tw.borrow().value.clone() {
             if map.contains_key(v) {
                 if let Some(x) = map.get(v) {
@@ -65,29 +85,19 @@ impl Instruction {
                         let child = self.children[idx as usize].borrow().compare(&tw);
                         child.borrow_mut().value = Some(String::from(v));
                         result.borrow_mut().children.push(child);
-                        //println!("here");
-                        //println!("{}",result.borrow_mut().print());
-                        //map.remove(v);
                     }
-                    //else {
-
-                    if let Some(t) = map.get(v) {
-                        if t != &idx {
-                            let mut child = Instruction::new();
-                            child.value = Some(v.clone() + &String::from("\n"));
-                            result.borrow_mut().children.push(Rc::new(RefCell::new(child)));                                                                    
-                        }
-                        //map.remove(v);
+                    else {
+                        let mut child = Instruction::new();
+                        child.value = Some(v.clone() + &String::from("\n"));
+                        result.borrow_mut().children.push(Rc::new(RefCell::new(child)));                                                                    
                     }
 
-                    //let f = v.clone();
                     map.remove(v);
                 }
             }            
             else {
                 let mm = tw.borrow().prefix(&String::from("+ "));
                 result.borrow_mut().children.push(mm);
-                //result.borrow_mut().children.push(tw.prefix(&String::from("+ ")));
             }            
         }
         idx += 1;

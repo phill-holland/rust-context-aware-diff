@@ -3,5 +3,7 @@
 using namespace std;
 
 void main()
+{
 cout << "hello! \" world!";
 int w = 0;
+}

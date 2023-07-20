@@ -1,5 +1,3 @@
-//use std::borrow::{BorrowMut};
-
 mod parser;
 
 fn main() 
@@ -11,7 +9,7 @@ fn main()
     //println!("{}",program2.borrow_mut().print());
 
     let result = program1.borrow_mut().compare(&program2);
-    let output = result.borrow_mut().print();//.as_ref().borrow().print();
+    let output = result.borrow_mut().print();
 
     println!("{}",output);   
 }
