@@ -88,7 +88,7 @@ impl Instruction {
                     }
                     else {
                         let mut child = Instruction::new();
-                        child.value = Some(v.clone() + &String::from("\n"));
+                        child.value = Some(v.clone());
                         result.borrow_mut().children.push(Rc::new(RefCell::new(child)));                                                                    
                     }
 
