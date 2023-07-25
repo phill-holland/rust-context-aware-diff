@@ -14,6 +14,10 @@ See C++ version here;
 
 https://www.github.com/phill-holland/context-aware-diff
 
+And the Go version;
+
+https://www.github.com/phill-holland/go-context-aware-diff
+
 # Usage
 
 diff filename1 filename2
